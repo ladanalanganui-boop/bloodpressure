@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Pressure</title>
+  
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#007BFF">
+  <link rel="icon" href="icon.jpg" sizes="192x192">
+  <link rel="apple-touch-icon" href="/icon.jpg">
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 15px;
+      background: #dc3545;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #c82333;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    .normal { background: #d4edda; color: #155724; }
+    .diabetes { background: #f8d7da; color: #721c24; }
+  </style>
+</head>
+
+<body>
+  <h2> Blood Pressure</h2>
+  
+  <input id="name" placeholder="Patient Name">
+  <input id="doctor" placeholder="Doctor Name">
+  <input id="bs" type="number" step="0.1" placeholder="Blood Pressure (mmHg)">
+  
+  <button onclick="check()">Check Status</button>
+  
+  <p id="result"></p>
+
+  <script>
+    function check() {
+      let bs = parseFloat(document.getElementById("bs").value);
+      let name = document.getElementById("name").value || "Patient";
+      let doctor = document.getElementById("doctor").value || "Doctor";
+      
+      if (isNaN(bs) || bs < 0) {
+        document.getElementById("result").innerHTML = "Please enter a valid blood sugar value!";
+        return;
+      }
+
+      let status = "";
+      let statusClass = "";
+      
+      if (bs >= 11.1) {
+        status = "🔴 HIGH - Diabetes";
+        statusClass = "diabetes";
+      } else if (bs >= 7.0) {
+        status = "🟡 Elevated";
+        statusClass = "diabetes";
+      } else if (bs >= 5.6) {
+        status = "🟡 Pre-Diabetes";
+        statusClass = "diabetes";
+      } else {
+        status = "🟢 NORMAL";
+        statusClass = "normal";
+      }
+
+      document.getElementById("result").innerHTML = `
+        <div class="${statusClass}">
+          <strong>${status}</strong><br>
+          Level: ${bs} mmol/L<br>
+          Patient: ${name} | Doctor: ${doctor}
+        </div>
+      `;
+    }
+  </script>
+
+  <!-- Register Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('SW registered'))
+        .catch(err => console.log('SW registration failed'));
+    }
+  </script>
+</body>
+</html>
