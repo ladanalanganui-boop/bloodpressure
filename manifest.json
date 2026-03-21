@@ -1,7 +1,7 @@
 {
   "name": "Blood pressure",
-  "short_name": "SugarCheck",
-  "description": "Check blood sugar levels instantly",
+  "short_name": "BloodPressure",
+  "description": "Check blood Presssure levels instantly",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
