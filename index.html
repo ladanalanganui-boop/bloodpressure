@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blood Pressure</title>
-  
+
   <!-- PWA Meta Tags -->
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#007BFF">
   <link rel="icon" href="icon.jpg" sizes="192x192">
   <link rel="apple-touch-icon" href="/icon.jpg">
-  
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -25,7 +25,6 @@
       margin: 10px 0;
       border: 1px solid #ddd;
       border-radius: 8px;
-      box-sizing: border-box;
     }
     button {
       width: 100%;
@@ -52,54 +51,46 @@
 </head>
 
 <body>
-  <h2> Blood Pressure</h2>
-  
+  <h2>Blood Pressure</h2>
+
   <input id="name" placeholder="Patient Name">
   <input id="doctor" placeholder="Doctor Name">
-  <input id="bs" type="number" step="0.1" placeholder="Blood Pressure (mmHg)">
-  
-  <button onclick="check()">Check Status</button>
-  
-  <p id="result"></p>
+  <input id="bs" type="number" step="0.1" placeholder="Enter Value">
 
-<script>
-  function check() {
-    let bs = parseFloat(document.getElementById("bs").value);
-    let name = document.getElementById("name").value || "Patient";
-    let doctor = document.getElementById("doctor").value || "Doctor";
-    
-    if (isNaN(bs) || bs < 0) {
-      document.getElementById("result").innerHTML = "Please enter a valid blood sugar value!";
-      return;
+  <button onclick="check()">Check</button>
+
+  <div id="result"></div>
+
+  <script>
+    function check() {
+      let bs = parseFloat(document.getElementById("bs").value);
+      let name = document.getElementById("name").value || "Patient";
+      let doctor = document.getElementById("doctor").value || "Doctor";
+
+      if (isNaN(bs) || bs < 0) {
+        document.getElementById("result").innerHTML = "Enter a valid value!";
+        return;
+      }
+
+      let status = (bs >= 5.0) ? "Diabetes" : "Normal";
+      let statusClass = (bs >= 5.0) ? "diabetes" : "normal";
+
+      document.getElementById("result").innerHTML = `
+        <div class="${statusClass}">
+          <h3>${status}</h3>
+          ${name}<br>
+          ${doctor}
+        </div>
+      `;
     }
+  </script>
 
-    let status = "";
-    let statusClass = "";
-    
-    if (bs >= 5.0) {
-      status = " Diabetes";
-      statusClass = "diabetes";
-    } else {
-      status = "Normal";
-      statusClass = "normal";
-    }
-
-    document.getElementById("result").innerHTML = `
-      <div class="${statusClass}">
-        <strong>${status}</strong><br>
-        
-        Patient: ${name} | Doctor: ${doctor}
-      </div>
-    `;
-  }
-</script>
-
-  <!-- Register Service Worker -->
+  <!-- Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js')
         .then(() => console.log('SW registered'))
-        .catch(err => console.log('SW registration failed'));
+        .catch(() => console.log('SW failed'));
     }
   </script>
 </body>
