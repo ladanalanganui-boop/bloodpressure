@@ -62,43 +62,37 @@
   
   <p id="result"></p>
 
-  <script>
-    function check() {
-      let bs = parseFloat(document.getElementById("bs").value);
-      let name = document.getElementById("name").value || "Patient";
-      let doctor = document.getElementById("doctor").value || "Doctor";
-      
-      if (isNaN(bs) || bs < 0) {
-        document.getElementById("result").innerHTML = "Please enter a valid blood sugar value!";
-        return;
-      }
-
-      let status = "";
-      let statusClass = "";
-      
-      if (bs >= 11.1) {
-        status = "🔴 HIGH - Diabetes";
-        statusClass = "diabetes";
-      } else if (bs >= 7.0) {
-        status = "🟡 Elevated";
-        statusClass = "diabetes";
-      } else if (bs >= 5.6) {
-        status = "🟡 Pre-Diabetes";
-        statusClass = "diabetes";
-      } else {
-        status = "🟢 NORMAL";
-        statusClass = "normal";
-      }
-
-      document.getElementById("result").innerHTML = `
-        <div class="${statusClass}">
-          <strong>${status}</strong><br>
-          Level: ${bs} mmol/L<br>
-          Patient: ${name} | Doctor: ${doctor}
-        </div>
-      `;
+<script>
+  function check() {
+    let bs = parseFloat(document.getElementById("bs").value);
+    let name = document.getElementById("name").value || "Patient";
+    let doctor = document.getElementById("doctor").value || "Doctor";
+    
+    if (isNaN(bs) || bs < 0) {
+      document.getElementById("result").innerHTML = "Please enter a valid blood sugar value!";
+      return;
     }
-  </script>
+
+    let status = "";
+    let statusClass = "";
+    
+    if (bs >= 5.0) {
+      status = "🔴 Diabetes";
+      statusClass = "diabetes";
+    } else {
+      status = "🟢 Normal";
+      statusClass = "normal";
+    }
+
+    document.getElementById("result").innerHTML = `
+      <div class="${statusClass}">
+        <strong>${status}</strong><br>
+        Level: ${bs} mmol/L<br>
+        Patient: ${name} | Doctor: ${doctor}
+      </div>
+    `;
+  }
+</script>
 
   <!-- Register Service Worker -->
   <script>
